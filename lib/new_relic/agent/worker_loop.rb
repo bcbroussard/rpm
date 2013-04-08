@@ -84,6 +84,8 @@ module NewRelic
           ::NewRelic::Agent.logger.error "Error running task in worker loop, likely a server error:", e
         rescue Timeout::Error, NewRelic::Agent::ServerConnectionException
           # Want to ignore these because they are handled already
+        rescue ::EOFError
+          # eat eof
         rescue SystemExit, NoMemoryError, SignalException
           raise
         rescue => e
